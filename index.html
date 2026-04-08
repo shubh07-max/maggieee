@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I Love You Maggie ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600;700&family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(-45deg, #ff006e, #8338ec, #3a86ff, #06ffa5);
+            background-size: 400% 400%;
+            animation: gradientBG 12s ease infinite;
+            font-family: 'Poppins', sans-serif;
+            position: relative;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Heart Rain Effect */
+        .hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .heart {
+            position: absolute;
+            color: #ff69b4;
+            font-size: 18px;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Password Overlay */
+        #passwordOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(102, 126, 234, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            text-align: center;
+            color: white;
+        }
+
+        #passwordOverlay.hidden {
+            display: none;
+        }
+
+        .lock-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
+        }
+
+        #passTitle {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            font-family: 'Dancing Script', cursive;
+            text-shadow: 0 0 20px rgba(255,255,255,0.8);
+        }
+
+        #passInput {
+            width: 280px;
+            padding: 15px 20px;
+            font-size: 1.4rem;
+            border: 3px solid rgba(255,255,255,0.5);
+            border-radius: 30px;
+            text-align: center;
+            background: rgba(255,255,255,0.9);
+            font-family: inherit;
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+        }
+
+        #passInput:focus {
+            outline: none;
+            border-color: #ff69b4;
+            box-shadow: 0 0 20px rgba(255,105,180,0.5);
+            transform: scale(1.05);
+        }
+
+        #unlockBtn {
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.3rem;
+            color: white;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(255,105,180,0.4);
+            transition: all 0.3s ease;
+        }
+
+        #unlockBtn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255,105,180,0.6);
+        }
+
+        /* Stages */
+        .stage {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            z-index: 10;
+        }
+
+        .stage.active {
+            display: flex;
+        }
+
+        .stage-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(3.5rem, 12vw, 8rem);
+            background: linear-gradient(45deg, #fff, #ffd700, #ff69b4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 40px;
+            text-shadow: 0 0 30px rgba(255,255,255,0.8);
+            animation: titlePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes titlePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .lines-container {
+            max-width: 700px;
+            margin: 30px 0;
+            display: grid;
+            gap: 20px;
+        }
+
+        .love-line {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(15px);
+            padding: 25px 30px;
+            border-radius: 25px;
+            font-size: 1.4rem;
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .love-line::before {
+            content: '💕';
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+        }
+
+        .love-line:hover {
+            transform: translateY(-10px) scale(1.02);
+            background: rgba(255,255,255,0.3);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+        }
+
+        .hindi-line {
+            font-family: 'Noto Sans Devanagari', sans-serif;
+            direction: ltr;
+        }
+
+        .next-button {
+            background: linear-gradient(45deg, #ff1493, #ff69b4);
+            border: none;
+            color: white;
+            padding: 20px 50px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 40px;
+            box-shadow: 0 15px 40px rgba(255,20,147,0.4);
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .next-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(255,20,147,0.6);
+        }
+
+        /* Final Stage */
+        #finalMessage {
+            font-size: clamp(3rem, 8vw, 6rem) !important;
+            font-family: 'Dancing Script', cursive !important;
+            color: #ff1493 !important;
+            text-shadow: 0 0 40px #ff1493 !important;
+            animation: heartbeat 1.2s infinite !important;
+            margin-top: 30px !important;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.1); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.1); }
+            70% { transform: scale(1); }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .love-line { font-size: 1.2rem; padding: 20px; }
+            .next-button { padding: 18px 35px; font-size: 1.3rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Heart Rain Canvas -->
+    <canvas class="hearts" id="heartsCanvas"></canvas>
+
+    <!-- Password Screen -->
+    <div id="passwordOverlay">
+        <div class="lock-icon">🔒</div>
+        <h2 id="passTitle">Private Love Message 💕</h2>
+        <p style="font-size: 1.2rem; margin-bottom: 25px;">Enter Password to Open:</p>
+        <input type="password" id="passInput" placeholder="Type password here..." maxlength="6">
+        <br>
+        <button id="unlockBtn" onclick="unlockSite()">Unlock Love ❤️</button>
+    </div>
+
+    <!-- Stage 1: I Love You Maggie -->
+    <div class="stage active" id="stage1">
+        <h1 class="stage-title">I Love You Maggie 💖</h1>
+        <div class="lines-container">
+            <div class="love-line">"Tum hi ho... Ab tum hi ho, Zindagi ab tum hi ho" - Arijit Singh</div>
+            <div class="love-line hindi">तेरी आँखों में खो जाना चाहता हूँ, तेरे बिना जीना नहीं चाहता 💕</div>
+            <div class="love-line">"Chain aaye mere body re, Tu khwaab mein aa gayi" - Arijit Singh</div>
+            <div class="love-line hindi">मैं तुझे कितना चाहता हूँ ये दिल भी न जाने - पवन सिंह</div>
+            <div class="love-line">"मेरी जान, तू मेरी जान है, तेरे बिना अधूरा हूँ मैं" ❤️</div>
+            <div class="love-line">"तुमसे ही... हर खुशी है, तुमसे ही हर गम भी" - Arijit Singh</div>
+        </div>
+        <button class="next-button" onclick="goToStage(2)">➡️ Next Stage</button>
+    </div>
+
+    <!-- Stage 2: Love You Guddu -->
+    <div class="stage" id="stage2">
+        <h1 class="stage-title">Love You Guddu 😍</h1>
+        <div class="lines-container">
+            <div class="love-line">"सोच ना सका था कभी, ये दिल इतना बेकरार होगा" - Arijit Singh</div>
+            <div class="love-line hindi">गुड्डू तू मेरी जान है, तेरे बिना जीना मुश्किल 💕</div>
+            <div class="love-line">"तेरे बिना जिया ना जाए, तू ही तो है मेरी जिंदगी" - पवन सिंह</div>
+            <div class="love-line">"मैं तो हूँ यहाँ तेरे लिए, तू जहाँ भी होगी मेरे लिए" - Arijit Singh</div>
+            <div class="love-line hindi">तेरी एक मुस्कान से दिल खुश हो जाता है मेरा 😘</div>
+            <div class="love-line">"लग जा गले के फेर ले दुनिया को गुम" ❤️</div>
+        </div>
+        <button class="next-button" onclick="goToStage(3)">➡️ Next Stage</button>
+    </div>
+
+    <!-- Stage 3: Ek Kissi Chahiye -->
+    <div class="stage" id="stage3">
+        <h1 class="stage-title">Ek Kissi Chahiye 😘</h1>
+        <div class="lines-container">
+            <div class="love-line">"एक किस्सी चाहिए, तेरी होठों से" - पवन सिंह</div>
+            <div class="love-line">"मुझे बस तेरी एक नजमा चाहिए, बाकी सब भूल जाऊंगा" - Arijit Singh</div>
+            <div class="love-line hindi">तेरे होंठों का रंग चुरा लूँ, बस एक बार तो छू लूँ 💋</div>
+            <div class="love-line">"तेरी आँखों में खो जाना चाहूँ, तेरे करीब आ जाना चाहूँ" ❤️</div>
+            <div class="love-line hindi">गुड्डू एक किस्सी दे दे ना, दिल को सुकून मिल जाएगा 😍</div>
+            <div class="love-line">"तुम्हीं तो जन्नत हो मेरी, बस एक मुलाकात हो जाए" - Arijit Singh</div>
+        </div>
+        <div id="finalMessage">LOVE YOU KAREJA 💖💖💖</div>
+    </div>
+
+    <script>
+        let currentStage = 1;
+        const password = 'sugguu';
+
+        // Heart Rain Animation
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = ['💖','💕','💗','💝','💘','❤️','💓'][Math.floor(Math.random()*7)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 4 + 4) + 's';
+            heart.style.fontSize = (Math.random() * 10 + 15) + 'px';
+            document.querySelector('.hearts').appendChild(heart);
+
+            setTimeout(() => heart.remove(), 8000);
+        }
+
+        setInterval(createHeart, 200);
+
+        // Password Unlock
+        function unlockSite() {
+            const input = document.getElementById('passInput').value.trim();
+            if (input === password) {
+                document.getElementById('passwordOverlay').classList.add('hidden');
+            } else {
+                alert('❌ गलत पासवर्ड! सही पासवर्ड: sugghuu 💕');
+                document.getElementById('passInput').value = '';
+            }
+        }
+
+        // Enter key support
+        document.getElementById('passInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') unlockSite();
+        });
+
+        // Stage Navigation
+        function goToStage(stageNum) {
+            document.querySelectorAll('.stage').forEach(stage => {
+                stage.classList.remove('active');
+            });
+            document.getElementById('stage' + stageNum).classList.add('active');
+            currentStage = stageNum;
+        }
+
+        // Preload hearts canvas
+        window.addEventListener('load', function() {
+            const canvas = document.getElementById('heartsCanvas');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
